@@ -27,7 +27,7 @@ int main(int argc, char** argv)
 	}
 
 	// Unix domain sockets will persist in the file system even after
-	// closing them
+	// closing them, so make sure to delete them
 	unlink(SOCKET_NAME);
 
 	// Open up a Unix domain socket...
@@ -105,7 +105,7 @@ int main(int argc, char** argv)
 out3:
 	close(sock_fd);
 	// Unix domain sockets will persist in the file system even after
-	// closing them
+	// closing them, so make sure to delete them
 	unlink(SOCKET_NAME);
 out2:
 	close(file_fd);

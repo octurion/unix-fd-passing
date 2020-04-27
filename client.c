@@ -33,15 +33,15 @@ int main(void)
 		goto out2;
 	}
 
-	// We have to receive that one byte the client sent
-	char msgbuf = '\0';
+	// We have to receive that one byte the server sent
+	char tmp_msgbuf = '\0';
 	struct iovec iov = {
-		.iov_base = &msgbuf,
+		.iov_base = &tmp_msgbuf,
 		.iov_len = 1,
 	};
 
 	// Set up the ancillary message header the kernel will use to pass
-	// the file descriptor from the client
+	// the file descriptor from the server
 	char cmsgbuf[CMSG_SPACE(sizeof(int))] = {0};
 	struct msghdr msg = {
 		.msg_name = NULL,
@@ -68,7 +68,7 @@ int main(void)
 	int file_fd;
 	memcpy(&file_fd, CMSG_DATA(cmsg), sizeof(file_fd));
 
-	// Size of the file
+	// Query the size of the file
 	struct stat st;
 	ret = fstat(file_fd, &st);
 	if (ret < 0) {
